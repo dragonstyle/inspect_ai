@@ -407,11 +407,11 @@ def letter_count():
 
 @metric
 def total_count() -> Metric:
-    def metric(scores: list[Score]) -> int | float:
+    def metric(scores: list[SampleScore]) -> int | float:
         total = 0.0
-        for score in scores:
-            total = score.value["a_count"] # <3>
-                + score.value["e_count"]   # <3>
+        for sample_score in scores:
+            total = sample_score.score.value["a_count"] # <3>
+                + sample_score.score.value["e_count"]   # <3>
         return total
     return metric
 
@@ -553,8 +553,8 @@ from inspect_ai.scorer import Metric, Score, metric
 def var() -> Metric:
     """Compute variance over all scores."""
 
-    def metric(scores: list[Score]) -> float:
-        return np.var([score.as_float() for score in scores]).item()
+    def metric(scores: list[SampleScore]) -> float:
+        return np.var([sample_score.score.as_float() for sample_score in scores]).item()
 
     return metric
 ```
